@@ -1,0 +1,5 @@
+{
+    "require": {
+        "overtrue/easy-sms": "^1.0"
+    }
+}
