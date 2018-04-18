@@ -33,11 +33,13 @@ $api->version('v1',[
         $api->post('verificationCodes','VerificationCodesController@store')->name('api.verificationCodes.store');
         //用户注册
         $api->post('users','UserCOntroller@store')->name('api.users.store');
+        //图形验证码
+        $api->post('captchas','CaptchaController@store')->name('api.captchas.store');
+
+
+
+
     });
-
-
-
-
 
 });
 

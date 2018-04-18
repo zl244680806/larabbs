@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use Cache;
 use Illuminate\Http\Request;
 use Overtrue\EasySms\EasySms;
 use App\Http\Requests\Api\VerificationCodeRequest;
@@ -10,7 +11,18 @@ class VerificationCodesController extends Controller
 {
     public function store(VerificationCodeRequest $request, EasySms $easySms)
     {
-        dd(1);
+        $captchaData = Cache::get($request->captcha_key);
+
+        if(!captchaData){
+            return $this->response->error('图片验证码失效',422);
+        }
+
+        if(!hash_equals($captchaData['code'],$request->captcha_code)){
+            Cache::forget($request->captcha_key);
+            return $this->response->errorUnauthorized('验证码错误');
+        }
+
+
         $phone = $request->phone;
 
         // 生成4位随机数，左侧补0
